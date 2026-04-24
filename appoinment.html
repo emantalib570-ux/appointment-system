@@ -1,0 +1,1720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MedConnect Karachi | Healthcare Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal: #0d6e6e;
+    --teal-light: #14a3a3;
+    --teal-dark: #084f4f;
+    --gold: #c8a96e;
+    --gold-light: #e2c98c;
+    --cream: #f9f5ef;
+    --white: #ffffff;
+    --gray-100: #f4f4f4;
+    --gray-200: #e8e8e8;
+    --gray-500: #888;
+    --gray-700: #444;
+    --dark: #1a1a1a;
+    --shadow: 0 4px 24px rgba(0,0,0,0.08);
+    --shadow-lg: 0 12px 48px rgba(0,0,0,0.14);
+    --radius: 14px;
+    --radius-sm: 8px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--dark);
+    min-height: 100vh;
+  }
+
+  /* ─── PAGES ─── */
+  .page { display: none; min-height: 100vh; }
+  .page.active { display: block; }
+
+  /* ─── NAV ─── */
+  nav {
+    background: var(--teal-dark);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.2);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    color: var(--gold-light);
+    font-size: 1.4rem;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+  }
+  .nav-logo span { color: white; }
+  .nav-links { display: flex; gap: 0.25rem; }
+  .nav-btn {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.8);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .nav-btn:hover, .nav-btn.active {
+    background: rgba(255,255,255,0.12);
+    color: white;
+  }
+  .nav-appt-btn {
+    background: var(--gold);
+    color: var(--teal-dark) !important;
+    font-weight: 600;
+    border-radius: 6px;
+    padding: 0.5rem 1.2rem;
+    transition: all 0.2s;
+  }
+  .nav-appt-btn:hover { background: var(--gold-light); }
+
+  /* ─── HERO ─── */
+  .hero {
+    background: linear-gradient(135deg, var(--teal-dark) 0%, var(--teal) 60%, var(--teal-light) 100%);
+    padding: 5rem 2rem 4rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -40%;
+    left: -20%;
+    width: 140%;
+    height: 200%;
+    background: radial-gradient(ellipse at 60% 40%, rgba(200,169,110,0.12) 0%, transparent 60%);
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    color: white;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+  .hero h1 em { color: var(--gold-light); font-style: normal; }
+  .hero p {
+    color: rgba(255,255,255,0.75);
+    font-size: 1.1rem;
+    max-width: 560px;
+    margin: 0 auto 2.5rem;
+  }
+  .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--gold);
+    color: var(--teal-dark);
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 0.85rem 2rem;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(200,169,110,0.35); }
+  .btn-outline {
+    background: transparent;
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 0.85rem 2rem;
+    border: 2px solid rgba(255,255,255,0.5);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .btn-outline:hover { border-color: white; background: rgba(255,255,255,0.1); }
+
+  /* ─── STATS BAR ─── */
+  .stats-bar {
+    background: white;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0;
+    box-shadow: var(--shadow);
+  }
+  .stat-item {
+    padding: 1.5rem 2.5rem;
+    text-align: center;
+    border-right: 1px solid var(--gray-200);
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--teal);
+    display: block;
+  }
+  .stat-label { font-size: 0.82rem; color: var(--gray-500); font-weight: 500; }
+
+  /* ─── SECTION ─── */
+  .section { padding: 3.5rem 2rem; max-width: 1200px; margin: 0 auto; }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--teal-dark);
+    margin-bottom: 0.5rem;
+  }
+  .section-sub { color: var(--gray-500); margin-bottom: 2.5rem; font-size: 0.95rem; }
+
+  /* ─── HOSPITAL CARDS ─── */
+  .hospitals-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+  .hospital-card {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.25s;
+    border: 2px solid transparent;
+  }
+  .hospital-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--teal-light); }
+  .hospital-card-header {
+    background: linear-gradient(135deg, var(--teal-dark), var(--teal));
+    padding: 1.5rem;
+    position: relative;
+  }
+  .hospital-icon {
+    width: 52px; height: 52px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem;
+    margin-bottom: 0.75rem;
+  }
+  .hospital-card-header h3 {
+    color: white;
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+  .hospital-badge {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--teal-dark);
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+  }
+  .hospital-card-body { padding: 1.25rem; }
+  .hospital-info-row { display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem; font-size: 0.85rem; color: var(--gray-700); }
+  .hospital-info-row span:first-child { font-size: 1rem; flex-shrink: 0; }
+  .hospital-card-footer {
+    padding: 1rem 1.25rem;
+    border-top: 1px solid var(--gray-200);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .doctors-count { font-size: 0.85rem; color: var(--gray-500); }
+  .view-btn {
+    background: var(--teal);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0.45rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: background 0.2s;
+  }
+  .view-btn:hover { background: var(--teal-light); }
+
+  /* ─── HOSPITAL DETAIL PAGE ─── */
+  .detail-header {
+    background: linear-gradient(135deg, var(--teal-dark), var(--teal));
+    padding: 2.5rem 2rem;
+    color: white;
+  }
+  .back-btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(255,255,255,0.15);
+    color: white; border: none;
+    padding: 0.5rem 1.1rem; border-radius: 6px;
+    cursor: pointer; font-size: 0.88rem; font-weight: 500;
+    font-family: 'DM Sans', sans-serif;
+    margin-bottom: 1.5rem;
+    transition: background 0.2s;
+  }
+  .back-btn:hover { background: rgba(255,255,255,0.25); }
+  .detail-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  .detail-meta { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 1rem; }
+  .detail-meta-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.9rem; opacity: 0.85; }
+
+  /* ─── SEARCH BAR ─── */
+  .search-wrap {
+    background: white;
+    padding: 1.25rem 2rem;
+    box-shadow: var(--shadow);
+    display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;
+  }
+  .search-input {
+    flex: 1; min-width: 220px;
+    padding: 0.7rem 1rem;
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+  .search-input:focus { border-color: var(--teal-light); }
+  .filter-select {
+    padding: 0.7rem 1rem;
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    background: white;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .filter-select:focus { border-color: var(--teal-light); }
+
+  /* ─── DOCTORS TABLE ─── */
+  .doctors-table-wrap { padding: 2rem; max-width: 1200px; margin: 0 auto; }
+  .doctors-table {
+    width: 100%; border-collapse: collapse;
+    background: white; border-radius: var(--radius); overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .doctors-table th {
+    background: var(--teal-dark);
+    color: white;
+    padding: 1rem 1.25rem;
+    text-align: left;
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+  .doctors-table td {
+    padding: 1rem 1.25rem;
+    font-size: 0.9rem;
+    border-bottom: 1px solid var(--gray-200);
+    color: var(--gray-700);
+  }
+  .doctors-table tr:last-child td { border-bottom: none; }
+  .doctors-table tr:hover td { background: #f0fafa; }
+  .spec-badge {
+    display: inline-block;
+    background: rgba(13,110,110,0.1);
+    color: var(--teal-dark);
+    padding: 0.2rem 0.65rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+  .timing-badge {
+    display: inline-block;
+    background: rgba(200,169,110,0.15);
+    color: #7a5a1a;
+    padding: 0.2rem 0.65rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+  .appt-btn-sm {
+    background: var(--teal);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0.4rem 0.9rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: background 0.2s;
+  }
+  .appt-btn-sm:hover { background: var(--teal-light); }
+
+  /* ─── LABS PAGE ─── */
+  .lab-hero {
+    background: linear-gradient(135deg, #1a3a4a, #2d6a6a);
+    padding: 3rem 2rem;
+    color: white;
+    text-align: center;
+  }
+  .lab-hero h2 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 0.5rem; }
+  .lab-tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin-top: 1.5rem; }
+  .lab-tab {
+    background: rgba(255,255,255,0.15);
+    color: white; border: none;
+    padding: 0.5rem 1.2rem; border-radius: 20px;
+    cursor: pointer; font-size: 0.85rem; font-weight: 500;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+  }
+  .lab-tab:hover, .lab-tab.active { background: var(--gold); color: var(--teal-dark); font-weight: 700; }
+
+  .lab-section { padding: 2rem; max-width: 1200px; margin: 0 auto; }
+  .test-category { display: none; }
+  .test-category.active { display: block; }
+  .test-category h3 { font-size: 1.3rem; color: var(--teal-dark); font-weight: 700; margin-bottom: 1.5rem; }
+  .tests-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 0.75rem; margin-bottom: 2rem; }
+  .test-card {
+    background: white;
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.25rem;
+    box-shadow: var(--shadow);
+    display: flex; align-items: center; gap: 0.75rem;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: 2px solid transparent;
+  }
+  .test-card:hover { border-color: var(--teal-light); transform: translateY(-2px); }
+  .test-card.selected { border-color: var(--teal); background: #f0fafa; }
+  .test-icon { font-size: 1.4rem; }
+  .test-name { font-size: 0.9rem; font-weight: 500; color: var(--gray-700); }
+
+  /* ─── APPOINTMENT PAGE ─── */
+  .appt-hero {
+    background: linear-gradient(135deg, var(--teal-dark), #1a5050);
+    padding: 3rem 2rem;
+    text-align: center;
+    color: white;
+  }
+  .appt-hero h2 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 0.5rem; }
+  .appt-container { max-width: 860px; margin: 0 auto; padding: 2.5rem 1.5rem; }
+  .appt-steps { display: flex; gap: 0; margin-bottom: 2.5rem; }
+  .step-item {
+    flex: 1; text-align: center;
+    position: relative;
+  }
+  .step-item::after {
+    content: '';
+    position: absolute;
+    top: 20px; left: 55%;
+    width: calc(100% - 10%); height: 2px;
+    background: var(--gray-200);
+  }
+  .step-item:last-child::after { display: none; }
+  .step-item.done::after { background: var(--teal); }
+  .step-circle {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--gray-200);
+    color: var(--gray-500);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 0.9rem;
+    margin: 0 auto 0.5rem;
+    position: relative; z-index: 1;
+    transition: all 0.3s;
+  }
+  .step-item.active .step-circle, .step-item.done .step-circle {
+    background: var(--teal); color: white;
+  }
+  .step-label { font-size: 0.78rem; color: var(--gray-500); font-weight: 500; }
+  .step-item.active .step-label { color: var(--teal); font-weight: 600; }
+
+  .appt-form-card {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    padding: 2rem;
+  }
+  .form-step { display: none; }
+  .form-step.active { display: block; }
+  .form-step h3 { font-size: 1.2rem; font-weight: 700; color: var(--teal-dark); margin-bottom: 1.5rem; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+  .form-group.full { grid-column: 1 / -1; }
+  .form-label { font-size: 0.85rem; font-weight: 600; color: var(--gray-700); }
+  .form-control {
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.92rem;
+    transition: border-color 0.2s;
+    outline: none;
+    background: white;
+  }
+  .form-control:focus { border-color: var(--teal-light); }
+  .form-btns { display: flex; gap: 1rem; margin-top: 1.5rem; justify-content: flex-end; }
+  .btn-next {
+    background: var(--teal); color: white; border: none;
+    padding: 0.75rem 2rem; border-radius: var(--radius-sm);
+    font-weight: 700; font-size: 0.95rem; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; transition: background 0.2s;
+  }
+  .btn-next:hover { background: var(--teal-light); }
+  .btn-prev {
+    background: var(--gray-200); color: var(--gray-700); border: none;
+    padding: 0.75rem 1.5rem; border-radius: var(--radius-sm);
+    font-weight: 600; font-size: 0.95rem; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; transition: background 0.2s;
+  }
+  .btn-prev:hover { background: var(--gray-500); color: white; }
+
+  .facility-selector { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.75rem; margin-top: 0.5rem; }
+  .facility-option {
+    border: 2px solid var(--gray-200); border-radius: var(--radius-sm);
+    padding: 1rem; cursor: pointer; transition: all 0.2s;
+    text-align: center;
+  }
+  .facility-option:hover { border-color: var(--teal-light); }
+  .facility-option.selected { border-color: var(--teal); background: #f0fafa; }
+  .facility-option .fac-icon { font-size: 1.8rem; margin-bottom: 0.4rem; }
+  .facility-option .fac-name { font-size: 0.88rem; font-weight: 700; color: var(--teal-dark); }
+  .facility-option .fac-type { font-size: 0.78rem; color: var(--gray-500); }
+
+  /* ─── SUCCESS ─── */
+  .success-card {
+    text-align: center; padding: 3rem 2rem;
+  }
+  .success-icon { font-size: 4rem; margin-bottom: 1rem; }
+  .success-card h3 { font-size: 1.6rem; color: var(--teal-dark); font-family: 'Playfair Display', serif; margin-bottom: 0.75rem; }
+  .appt-ref {
+    background: var(--teal-dark); color: white;
+    display: inline-block; padding: 0.5rem 1.5rem;
+    border-radius: 6px; font-weight: 700; font-size: 1.1rem;
+    margin: 1rem 0 1.5rem; letter-spacing: 2px;
+  }
+
+  /* ─── CHAT BOT ─── */
+  #chat-fab {
+    position: fixed; bottom: 2rem; right: 2rem; z-index: 1000;
+    width: 62px; height: 62px;
+    background: var(--teal);
+    border-radius: 50%; border: none;
+    cursor: pointer; box-shadow: 0 4px 24px rgba(13,110,110,0.4);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem;
+    transition: all 0.3s;
+    animation: pulse 3s infinite;
+  }
+  @keyframes pulse { 0%,100%{box-shadow:0 4px 24px rgba(13,110,110,0.4)} 50%{box-shadow:0 4px 32px rgba(13,110,110,0.7)} }
+  #chat-fab:hover { background: var(--teal-light); transform: scale(1.08); }
+  #chat-badge {
+    position: absolute; top: -2px; right: -2px;
+    background: var(--gold); color: var(--teal-dark);
+    width: 20px; height: 20px; border-radius: 50%;
+    font-size: 0.7rem; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  #chat-window {
+    position: fixed; bottom: 6.5rem; right: 2rem; z-index: 999;
+    width: 360px; height: 500px;
+    background: white; border-radius: var(--radius);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    display: none; flex-direction: column; overflow: hidden;
+    border: 1px solid rgba(13,110,110,0.15);
+  }
+  #chat-window.open { display: flex; }
+  .chat-header {
+    background: linear-gradient(135deg, var(--teal-dark), var(--teal));
+    padding: 1rem 1.25rem;
+    display: flex; align-items: center; gap: 0.75rem;
+    color: white;
+  }
+  .chat-avatar {
+    width: 40px; height: 40px; background: rgba(255,255,255,0.2);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+  }
+  .chat-header-info { flex: 1; }
+  .chat-header-info strong { display: block; font-size: 0.95rem; }
+  .chat-header-info small { font-size: 0.78rem; opacity: 0.8; }
+  .chat-close { background: none; border: none; color: white; cursor: pointer; font-size: 1.2rem; opacity: 0.8; transition: opacity 0.2s; }
+  .chat-close:hover { opacity: 1; }
+  .chat-messages { flex: 1; overflow-y: auto; padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem; }
+  .msg { max-width: 80%; display: flex; flex-direction: column; gap: 0.2rem; }
+  .msg.bot { align-self: flex-start; }
+  .msg.user { align-self: flex-end; }
+  .msg-bubble {
+    padding: 0.7rem 1rem; border-radius: 14px; font-size: 0.88rem; line-height: 1.5;
+  }
+  .bot .msg-bubble { background: var(--gray-100); color: var(--dark); border-bottom-left-radius: 4px; }
+  .user .msg-bubble { background: var(--teal); color: white; border-bottom-right-radius: 4px; }
+  .msg-time { font-size: 0.7rem; color: var(--gray-500); padding: 0 0.25rem; }
+  .user .msg-time { text-align: right; }
+  .chat-quick-btns { padding: 0.5rem 1rem; display: flex; flex-wrap: wrap; gap: 0.4rem; border-top: 1px solid var(--gray-200); }
+  .quick-btn {
+    background: var(--gray-100); color: var(--teal-dark);
+    border: 1px solid var(--gray-200); border-radius: 16px;
+    padding: 0.35rem 0.8rem; font-size: 0.78rem; font-weight: 600;
+    cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s;
+  }
+  .quick-btn:hover { background: var(--teal); color: white; border-color: var(--teal); }
+  .chat-input-row { display: flex; gap: 0.5rem; padding: 0.75rem 1rem; border-top: 1px solid var(--gray-200); }
+  .chat-input {
+    flex: 1; padding: 0.6rem 0.9rem; border: 2px solid var(--gray-200);
+    border-radius: 20px; font-family: 'DM Sans', sans-serif; font-size: 0.88rem; outline: none;
+    transition: border-color 0.2s;
+  }
+  .chat-input:focus { border-color: var(--teal-light); }
+  .chat-send {
+    width: 38px; height: 38px; background: var(--teal); color: white; border: none;
+    border-radius: 50%; cursor: pointer; font-size: 1rem; transition: background 0.2s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .chat-send:hover { background: var(--teal-light); }
+  .typing-dots { display: flex; gap: 4px; align-items: center; padding: 0.5rem 0; }
+  .dot { width: 7px; height: 7px; background: var(--gray-500); border-radius: 50%; animation: typing 1.4s infinite; }
+  .dot:nth-child(2) { animation-delay: 0.2s; }
+  .dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes typing { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-5px)} }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--teal-dark);
+    color: rgba(255,255,255,0.7);
+    padding: 3rem 2rem 1.5rem;
+    margin-top: 3rem;
+  }
+  .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto 2rem; }
+  .footer-col h4 { color: var(--gold-light); font-size: 0.95rem; font-weight: 700; margin-bottom: 0.75rem; }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: 0.4rem; font-size: 0.85rem; }
+  .footer-col ul li a { color: rgba(255,255,255,0.6); text-decoration: none; transition: color 0.2s; }
+  .footer-col ul li a:hover { color: white; }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.25rem; text-align: center; font-size: 0.82rem; max-width: 1200px; margin: 0 auto; }
+
+  /* ─── CONTACT PAGE ─── */
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; padding: 2.5rem; max-width: 1100px; margin: 0 auto; }
+  .contact-card { background: white; border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--shadow); }
+  .contact-card h4 { font-size: 1.05rem; font-weight: 700; color: var(--teal-dark); margin-bottom: 1rem; }
+  .contact-row { display: flex; gap: 0.75rem; align-items: flex-start; margin-bottom: 0.75rem; font-size: 0.9rem; color: var(--gray-700); }
+  .contact-row .ci { font-size: 1.1rem; flex-shrink: 0; margin-top: 0.1rem; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    .nav-links .nav-btn:not(.nav-appt-btn) { display: none; }
+    .form-grid { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; padding: 1.5rem; }
+    .stat-item { padding: 1rem 1.25rem; }
+    .doctors-table-wrap { padding: 1rem; overflow-x: auto; }
+    #chat-window { width: calc(100vw - 2rem); right: 1rem; }
+  }
+
+  /* Animations */
+  .fade-in { animation: fadeIn 0.4s ease; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+
+  /* ─── SERVICES PAGE ─── */
+  .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.25rem; }
+  .service-card {
+    background: white; border-radius: var(--radius); padding: 1.75rem;
+    box-shadow: var(--shadow); text-align: center; transition: all 0.25s;
+    border-top: 4px solid var(--teal);
+  }
+  .service-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+  .service-icon { font-size: 2.4rem; margin-bottom: 0.75rem; }
+  .service-card h4 { font-size: 1rem; font-weight: 700; color: var(--teal-dark); margin-bottom: 0.5rem; }
+  .service-card p { font-size: 0.85rem; color: var(--gray-500); line-height: 1.5; }
+
+  /* Naval lab services */
+  .scan-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.75rem; }
+  .scan-card {
+    background: white; border-radius: var(--radius-sm); padding: 1rem;
+    box-shadow: var(--shadow); display: flex; align-items: center; gap: 0.75rem;
+  }
+  .scan-card .si { font-size: 1.5rem; }
+  .scan-card span { font-size: 0.88rem; font-weight: 500; color: var(--gray-700); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo" onclick="showPage('home')">Med<span>Connect</span> <span style="color:var(--gold-light);font-size:0.9rem;font-weight:400;">Karachi</span></div>
+  <div class="nav-links">
+    <button class="nav-btn active" onclick="showPage('home');setActive(this)">Home</button>
+    <button class="nav-btn" onclick="showPage('hospitals');setActive(this)">Hospitals</button>
+    <button class="nav-btn" onclick="showPage('labs');setActive(this)">Labs</button>
+    <button class="nav-btn" onclick="showPage('services');setActive(this)">Services</button>
+    <button class="nav-btn" onclick="showPage('contact');setActive(this)">Contact</button>
+    <button class="nav-btn nav-appt-btn" onclick="showPage('appointment');setActive(this)">📅 Book Appointment</button>
+  </div>
+</nav>
+
+<!-- ═══════════ HOME PAGE ═══════════ -->
+<div id="page-home" class="page active">
+  <div class="hero">
+    <h1>Your Health, Our <em>Priority</em><br>in Karachi</h1>
+    <p>Connect with top doctors across 4 hospitals, 2 diagnostic labs — all in one place.</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="showPage('appointment')">📅 Book Appointment</button>
+      <button class="btn-outline" onclick="showPage('hospitals')">🏥 Browse Hospitals</button>
+    </div>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat-item"><span class="stat-num">60+</span><span class="stat-label">Specialist Doctors</span></div>
+    <div class="stat-item"><span class="stat-num">4</span><span class="stat-label">Hospitals & Clinics</span></div>
+    <div class="stat-item"><span class="stat-num">2</span><span class="stat-label">Diagnostic Labs</span></div>
+    <div class="stat-item"><span class="stat-num">20+</span><span class="stat-label">Specializations</span></div>
+    <div class="stat-item"><span class="stat-num">24/7</span><span class="stat-label">Support</span></div>
+  </div>
+
+  <div class="section fade-in">
+    <div class="section-title">Our Healthcare Facilities</div>
+    <p class="section-sub">Choose from our trusted network of hospitals, clinics and diagnostic centers in Karachi</p>
+    <div class="hospitals-grid">
+      <!-- Ultramed -->
+      <div class="hospital-card" onclick="showHospital('ultramed')">
+        <div class="hospital-card-header">
+          <div class="hospital-icon">🏥</div>
+          <h3>Ultramed Consultant Clinics</h3>
+          <span class="hospital-badge">CONSULTANT CLINIC</span>
+        </div>
+        <div class="hospital-card-body">
+          <div class="hospital-info-row"><span>📍</span><span>Block 2, PECHS, Karachi</span></div>
+          <div class="hospital-info-row"><span>📞</span><span>Contact Available at Reception</span></div>
+          <div class="hospital-info-row"><span>⏰</span><span>By Appointment / Fixed Timings</span></div>
+        </div>
+        <div class="hospital-card-footer">
+          <span class="doctors-count">16 Specialists</span>
+          <button class="view-btn">View Doctors →</button>
+        </div>
+      </div>
+      <!-- Murshid -->
+      <div class="hospital-card" onclick="showHospital('murshid')">
+        <div class="hospital-card-header">
+          <div class="hospital-icon">🏨</div>
+          <h3>Murshid Hospital</h3>
+          <span class="hospital-badge">HOSPITAL</span>
+        </div>
+        <div class="hospital-card-body">
+          <div class="hospital-info-row"><span>📍</span><span>Karachi, Pakistan</span></div>
+          <div class="hospital-info-row"><span>📞</span><span>Contact at Reception</span></div>
+          <div class="hospital-info-row"><span>⏰</span><span>8:00 AM – 9:00 PM</span></div>
+        </div>
+        <div class="hospital-card-footer">
+          <span class="doctors-count">5 Specialists</span>
+          <button class="view-btn">View Doctors →</button>
+        </div>
+      </div>
+      <!-- Patni -->
+      <div class="hospital-card" onclick="showHospital('patni')">
+        <div class="hospital-card-header">
+          <div class="hospital-icon">🏥</div>
+          <h3>Patni Hospital</h3>
+          <span class="hospital-badge">HOSPITAL</span>
+        </div>
+        <div class="hospital-card-body">
+          <div class="hospital-info-row"><span>📍</span><span>Karachi, Pakistan</span></div>
+          <div class="hospital-info-row"><span>📞</span><span>Contact at Reception</span></div>
+          <div class="hospital-info-row"><span>⏰</span><span>8:00 AM – 4:00 PM (Sun Off)</span></div>
+        </div>
+        <div class="hospital-card-footer">
+          <span class="doctors-count">6 Specialists</span>
+          <button class="view-btn">View Doctors →</button>
+        </div>
+      </div>
+      <!-- Kharadar -->
+      <div class="hospital-card" onclick="showHospital('kharadar')">
+        <div class="hospital-card-header">
+          <div class="hospital-icon">🏛️</div>
+          <h3>Kharadar General Hospital</h3>
+          <span class="hospital-badge">GENERAL HOSPITAL</span>
+        </div>
+        <div class="hospital-card-body">
+          <div class="hospital-info-row"><span>📍</span><span>Aga Khan Road, Kharadar, Karachi</span></div>
+          <div class="hospital-info-row"><span>📞</span><span>021-32510113 / 021-111 544 544</span></div>
+          <div class="hospital-info-row"><span>⏰</span><span>Morning & Evening OPD</span></div>
+        </div>
+        <div class="hospital-card-footer">
+          <span class="doctors-count">40+ Specialists</span>
+          <button class="view-btn">View Doctors →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lab Cards on home -->
+  <div class="section" style="padding-top:0">
+    <div class="section-title">Diagnostic Laboratories</div>
+    <p class="section-sub">Accredited labs with advanced testing facilities</p>
+    <div class="hospitals-grid">
+      <div class="hospital-card" onclick="showPage('labs');showLabDetail('rahila')">
+        <div class="hospital-card-header" style="background:linear-gradient(135deg,#1a3a4a,#2d6a6a)">
+          <div class="hospital-icon">🔬</div>
+          <h3>Rahila Research & Reference Lab</h3>
+          <span class="hospital-badge">PVTL LTD.</span>
+        </div>
+        <div class="hospital-card-body">
+          <div class="hospital-info-row"><span>📍</span><span>F 7-8, Usmania Center, Muhammad Ali Society, Karachi</span></div>
+          <div class="hospital-info-row"><span>📞</span><span>021-34383054 / 34383055 / 34529803</span></div>
+          <div class="hospital-info-row"><span>📧</span><span>rahilalab@gmail.com</span></div>
+          <div class="hospital-info-row"><span>🌐</span><span>www.rahilalabs.com</span></div>
+        </div>
+        <div class="hospital-card-footer">
+          <span class="doctors-count">PCR · Hematology · Chemistry</span>
+          <button class="view-btn">View Tests →</button>
+        </div>
+      </div>
+      <div class="hospital-card" onclick="showPage('labs');showLabDetail('naval')">
+        <div class="hospital-card-header" style="background:linear-gradient(135deg,#1a2a4a,#2d4a6a)">
+          <div class="hospital-icon">🔭</div>
+          <h3>Naval Diagnostic Clinic</h3>
+          <span class="hospital-badge">DIAGNOSTIC LAB</span>
+        </div>
+        <div class="hospital-card-body">
+          <div class="hospital-info-row"><span>📍</span><span>Sector 4, SK Street, opp. Haroon Bahria College, Naval Colony, Karachi</span></div>
+          <div class="hospital-info-row"><span>⏰</span><span>9:00 AM – 11:00 PM (Daily)</span></div>
+          <div class="hospital-info-row"><span>🔬</span><span>Ultrasound · Color Doppler · Radiology</span></div>
+        </div>
+        <div class="hospital-card-footer">
+          <span class="doctors-count">Ultrasound · Radiology · Micro</span>
+          <button class="view-btn">View Services →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Services preview -->
+  <div class="section" style="padding-top:0">
+    <div class="section-title">Why MedConnect?</div>
+    <p class="section-sub">Everything you need for your healthcare journey</p>
+    <div class="services-grid">
+      <div class="service-card"><div class="service-icon">📅</div><h4>Easy Appointments</h4><p>Book doctor appointments online in seconds with real-time availability.</p></div>
+      <div class="service-card"><div class="service-icon">🔬</div><h4>Lab Test Booking</h4><p>Schedule diagnostic tests at Rahila Lab or Naval Diagnostic from home.</p></div>
+      <div class="service-card"><div class="service-icon">🤖</div><h4>AI Health Chat</h4><p>Get instant answers about doctors, timings, and specializations 24/7.</p></div>
+      <div class="service-card"><div class="service-icon">📍</div><h4>All Karachi Facilities</h4><p>4 hospitals and 2 labs — complete Karachi healthcare directory.</p></div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>MedConnect Karachi</h4>
+        <p style="font-size:0.85rem;line-height:1.6">Your trusted healthcare portal connecting patients with top medical professionals across Karachi.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Hospitals</h4>
+        <ul>
+          <li><a href="#" onclick="showHospital('ultramed')">Ultramed Clinics (PECHS)</a></li>
+          <li><a href="#" onclick="showHospital('murshid')">Murshid Hospital</a></li>
+          <li><a href="#" onclick="showHospital('patni')">Patni Hospital</a></li>
+          <li><a href="#" onclick="showHospital('kharadar')">Kharadar General Hospital</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Labs & Diagnostics</h4>
+        <ul>
+          <li><a href="#" onclick="showPage('labs')">Rahila Research Lab</a></li>
+          <li><a href="#" onclick="showPage('labs')">Naval Diagnostic Clinic</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#" onclick="showPage('appointment')">Book Appointment</a></li>
+          <li><a href="#" onclick="showPage('contact')">Contact Us</a></li>
+          <li><a href="#" onclick="showPage('services')">Our Services</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2025 MedConnect Karachi. All Rights Reserved.</div>
+  </footer>
+</div>
+
+<!-- ═══════════ HOSPITALS LIST PAGE ═══════════ -->
+<div id="page-hospitals" class="page">
+  <div class="hero" style="padding:3rem 2rem 2.5rem">
+    <h1 style="font-size:2.2rem">Our <em>Hospitals</em> & Clinics</h1>
+    <p>Browse all facilities and find the right specialist for you</p>
+  </div>
+  <div class="section fade-in">
+    <div class="hospitals-grid">
+      <div class="hospital-card" onclick="showHospital('ultramed')">
+        <div class="hospital-card-header"><div class="hospital-icon">🏥</div><h3>Ultramed Consultant Clinics & Diagnostics</h3><span class="hospital-badge">PECHS · KARACHI</span></div>
+        <div class="hospital-card-body">
+          <div class="hospital-info-row"><span>📍</span><span>Block 2, PECHS, Karachi</span></div>
+          <div class="hospital-info-row"><span>📞</span><span>Contact at Reception</span></div>
+          <div class="hospital-info-row"><span>🩺</span><span>Cardiology · Surgery · Orthopedics · Gynecology & more</span></div>
+        </div>
+        <div class="hospital-card-footer"><span class="doctors-count">16 Doctors</span><button class="view-btn">View →</button></div>
+      </div>
+      <div class="hospital-card" onclick="showHospital('murshid')">
+        <div class="hospital-card-header"><div class="hospital-icon">🏨</div><h3>Murshid Hospital</h3><span class="hospital-badge">KARACHI</span></div>
+        <div class="hospital-card-body">
+          <div class="hospital-info-row"><span>📍</span><span>Karachi, Pakistan</span></div>
+          <div class="hospital-info-row"><span>📞</span><span>Contact at Reception</span></div>
+          <div class="hospital-info-row"><span>🩺</span><span>Gynecology · Dermatology · Dietitian</span></div>
+        </div>
+        <div class="hospital-card-footer"><span class="doctors-count">5 Doctors</span><button class="view-btn">View →</button></div>
+      </div>
+      <div class="hospital-card" onclick="showHospital('patni')">
+        <div class="hospital-card-header"><div class="hospital-icon">🏥</div><h3>Patni Hospital</h3><span class="hospital-badge">KARACHI</span></div>
+        <div class="hospital-card-body">
+          <div class="hospital-info-row"><span>📍</span><span>Karachi, Pakistan</span></div>
+          <div class="hospital-info-row"><span>📞</span><span>Contact at Reception</span></div>
+          <div class="hospital-info-row"><span>🩺</span><span>Gynecology · Pediatrics · Surgery</span></div>
+        </div>
+        <div class="hospital-card-footer"><span class="doctors-count">6 Doctors</span><button class="view-btn">View →</button></div>
+      </div>
+      <div class="hospital-card" onclick="showHospital('kharadar')">
+        <div class="hospital-card-header"><div class="hospital-icon">🏛️</div><h3>Kharadar General Hospital</h3><span class="hospital-badge">KHARADAR · KARACHI</span></div>
+        <div class="hospital-card-body">
+          <div class="hospital-info-row"><span>📍</span><span>Aga Khan Road, Kharadar, Karachi</span></div>
+          <div class="hospital-info-row"><span>📞</span><span>021-32510113-116 | 021-111 544 544</span></div>
+          <div class="hospital-info-row"><span>🩺</span><span>General · Cardiology · Neurology · ENT · Eye & more</span></div>
+        </div>
+        <div class="hospital-card-footer"><span class="doctors-count">40+ Doctors</span><button class="view-btn">View →</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ HOSPITAL DETAIL PAGES ═══════════ -->
+<div id="page-hospital-detail" class="page">
+  <div id="hospital-detail-content"></div>
+</div>
+
+<!-- ═══════════ LABS PAGE ═══════════ -->
+<div id="page-labs" class="page">
+  <div class="lab-hero">
+    <h2>🔬 Diagnostic Laboratories</h2>
+    <p style="opacity:0.8;margin-top:0.5rem">Rahila Research Lab & Naval Diagnostic Clinic</p>
+    <div class="lab-tabs">
+      <button class="lab-tab active" onclick="switchLabView('rahila',this)">Rahila Research Lab</button>
+      <button class="lab-tab" onclick="switchLabView('naval',this)">Naval Diagnostic Clinic</button>
+    </div>
+  </div>
+
+  <!-- RAHILA LAB -->
+  <div id="lab-rahila" class="lab-section" style="display:block">
+    <div style="background:white;border-radius:var(--radius);padding:1.5rem;margin-bottom:2rem;box-shadow:var(--shadow)">
+      <h3 style="color:var(--teal-dark);font-size:1.3rem;margin-bottom:1rem">Rahila Research & Reference Lab (Pvt.) Ltd.</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem">
+        <div class="contact-row"><span class="ci">📍</span><span>F 7-8, Usmania Center, Muhammad Ali Society, Commercial Market, Karachi</span></div>
+        <div class="contact-row"><span class="ci">📞</span><span>021-34383054 | 021-34383055 | 021-34529803</span></div>
+        <div class="contact-row"><span class="ci">📧</span><span>rahilalab@gmail.com</span></div>
+        <div class="contact-row"><span class="ci">🌐</span><span>www.rahilalabs.com</span></div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:2rem">
+      <button class="lab-tab active" style="background:var(--teal);color:white;border:none" onclick="switchRahilaTab('chemistry',this)">🧪 Chemistry</button>
+      <button class="lab-tab" style="background:var(--gray-200);color:var(--teal-dark)" onclick="switchRahilaTab('hematology',this)">🩸 Hematology</button>
+      <button class="lab-tab" style="background:var(--gray-200);color:var(--teal-dark)" onclick="switchRahilaTab('microbiology',this)">🦠 Microbiology</button>
+      <button class="lab-tab" style="background:var(--gray-200);color:var(--teal-dark)" onclick="switchRahilaTab('pcr',this)">🧬 PCR / Molecular</button>
+    </div>
+
+    <div id="rtab-chemistry" class="test-category active">
+      <h3>🧪 Chemistry Department</h3>
+      <div class="tests-grid">
+        <div class="test-card"><span class="test-icon">💉</span><div class="test-name">Lipid Profile</div></div>
+        <div class="test-card"><span class="test-icon">🫀</span><div class="test-name">Liver Function Test (LFT)</div></div>
+        <div class="test-card"><span class="test-icon">🔬</span><div class="test-name">SGPT / SGOT</div></div>
+        <div class="test-card"><span class="test-icon">⚗️</span><div class="test-name">Electrolytes</div></div>
+        <div class="test-card"><span class="test-icon">🍬</span><div class="test-name">Fasting & Random Blood Sugar</div></div>
+        <div class="test-card"><span class="test-icon">🔭</span><div class="test-name">Urea & Creatinine</div></div>
+        <div class="test-card"><span class="test-icon">💊</span><div class="test-name">Uric Acid</div></div>
+        <div class="test-card"><span class="test-icon">🦴</span><div class="test-name">Calcium</div></div>
+        <div class="test-card"><span class="test-icon">🧫</span><div class="test-name">Urine Micro Albumin</div></div>
+        <div class="test-card"><span class="test-icon">🔬</span><div class="test-name">Amylase</div></div>
+        <div class="test-card"><span class="test-icon">🩸</span><div class="test-name">Iron / TIBC</div></div>
+        <div class="test-card"><span class="test-icon">⚗️</span><div class="test-name">Protein A/G Ratio</div></div>
+        <div class="test-card"><span class="test-icon">🔬</span><div class="test-name">Phosphorus</div></div>
+        <div class="test-card"><span class="test-icon">🧪</span><div class="test-name">Gamma GT</div></div>
+        <div class="test-card"><span class="test-icon">🫀</span><div class="test-name">Cholesterol & Triglycerides</div></div>
+        <div class="test-card"><span class="test-icon">💉</span><div class="test-name">Alkaline Phosphatase</div></div>
+        <div class="test-card"><span class="test-icon">🟡</span><div class="test-name">Bilirubin (Total/Direct/Indirect)</div></div>
+        <div class="test-card"><span class="test-icon">💊</span><div class="test-name">Delta Drugs & Serum Alcohol</div></div>
+      </div>
+      <button class="btn-primary" onclick="bookLabTest('Rahila Research Lab','Chemistry')">📅 Book Chemistry Tests</button>
+    </div>
+
+    <div id="rtab-hematology" class="test-category">
+      <h3>🩸 Hematology & General Tests</h3>
+      <div class="tests-grid">
+        <div class="test-card"><span class="test-icon">🩸</span><div class="test-name">Blood CP (Complete Picture)</div></div>
+        <div class="test-card"><span class="test-icon">🔬</span><div class="test-name">ESR</div></div>
+        <div class="test-card"><span class="test-icon">🦟</span><div class="test-name">Malaria Parasite</div></div>
+        <div class="test-card"><span class="test-icon">🅱️</span><div class="test-name">Blood Group & Rh</div></div>
+        <div class="test-card"><span class="test-icon">⏱️</span><div class="test-name">PT (INR)</div></div>
+        <div class="test-card"><span class="test-icon">⏱️</span><div class="test-name">APTT</div></div>
+        <div class="test-card"><span class="test-icon">💉</span><div class="test-name">Haemoglobin</div></div>
+        <div class="test-card"><span class="test-icon">🔴</span><div class="test-name">Platelets Count</div></div>
+        <div class="test-card"><span class="test-icon">🔬</span><div class="test-name">Rh Antibody</div></div>
+        <div class="test-card"><span class="test-icon">🧫</span><div class="test-name">Retic Count</div></div>
+        <div class="test-card"><span class="test-icon">🔬</span><div class="test-name">Coombs (Direct/Indirect)</div></div>
+        <div class="test-card"><span class="test-icon">🧪</span><div class="test-name">Urine D/R</div></div>
+        <div class="test-card"><span class="test-icon">💩</span><div class="test-name">Stool D/R</div></div>
+        <div class="test-card"><span class="test-icon">🧫</span><div class="test-name">CSF D/R</div></div>
+        <div class="test-card"><span class="test-icon">🔬</span><div class="test-name">Ascitic Fluid D/R</div></div>
+        <div class="test-card"><span class="test-icon">💧</span><div class="test-name">Pleural Fluid D/R</div></div>
+        <div class="test-card"><span class="test-icon">🤰</span><div class="test-name">Pregnancy Test</div></div>
+      </div>
+      <button class="btn-primary" onclick="bookLabTest('Rahila Research Lab','Hematology')">📅 Book Hematology Tests</button>
+    </div>
+
+    <div id="rtab-microbiology" class="test-category">
+      <h3>🦠 Microbiology & Serology</h3>
+      <div class="tests-grid">
+        <div class="test-card"><span class="test-icon">🩸</span><div class="test-name">Blood C/S</div></div>
+        <div class="test-card"><span class="test-icon">🧪</span><div class="test-name">Urine C/S</div></div>
+        <div class="test-card"><span class="test-icon">🗣️</span><div class="test-name">Throat Swab C/S</div></div>
+        <div class="test-card"><span class="test-icon">🩹</span><div class="test-name">Pus C/S</div></div>
+        <div class="test-card"><span class="test-icon">💨</span><div class="test-name">Sputum C/S</div></div>
+        <div class="test-card"><span class="test-icon">🔬</span><div class="test-name">AFB Stain</div></div>
+        <div class="test-card"><span class="test-icon">🔴</span><div class="test-name">RA Factor (Screening)</div></div>
+        <div class="test-card"><span class="test-icon">🔬</span><div class="test-name">CRP</div></div>
+        <div class="test-card"><span class="test-icon">🫁</span><div class="test-name">TB ICT</div></div>
+        <div class="test-card"><span class="test-icon">🦟</span><div class="test-name">ICT Malaria</div></div>
+        <div class="test-card"><span class="test-icon">🔬</span><div class="test-name">VDRL</div></div>
+      </div>
+      <button class="btn-primary" onclick="bookLabTest('Rahila Research Lab','Microbiology')">📅 Book Microbiology Tests</button>
+    </div>
+
+    <div id="rtab-pcr" class="test-category">
+      <h3>🧬 PCR Based Diagnostics (Real Time)</h3>
+      <div class="tests-grid">
+        <div class="test-card"><span class="test-icon">🧬</span><div class="test-name">HCV RNA – Qualitative</div></div>
+        <div class="test-card"><span class="test-icon">🧬</span><div class="test-name">HCV RNA – Viral Load</div></div>
+        <div class="test-card"><span class="test-icon">🧬</span><div class="test-name">HBV DNA – Qualitative</div></div>
+        <div class="test-card"><span class="test-icon">🧬</span><div class="test-name">HBV DNA – Viral Load</div></div>
+        <div class="test-card"><span class="test-icon">🧬</span><div class="test-name">HDV RNA – Qualitative</div></div>
+      </div>
+      <button class="btn-primary" onclick="bookLabTest('Rahila Research Lab','PCR Molecular')">📅 Book PCR Tests</button>
+    </div>
+  </div>
+
+  <!-- NAVAL LAB -->
+  <div id="lab-naval" class="lab-section" style="display:none">
+    <div style="background:white;border-radius:var(--radius);padding:1.5rem;margin-bottom:2rem;box-shadow:var(--shadow)">
+      <h3 style="color:var(--teal-dark);font-size:1.3rem;margin-bottom:1rem">Naval Diagnostic Clinic</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem">
+        <div class="contact-row"><span class="ci">📍</span><span>Sector 4, SK Street, Opposite Haroon Bahria College, Naval Colony, Karachi</span></div>
+        <div class="contact-row"><span class="ci">⏰</span><span>9:00 AM – 11:00 PM (Daily)</span></div>
+        <div class="contact-row"><span class="ci">🔬</span><span>Ultrasound · Color Doppler · Radiology · Pathology</span></div>
+      </div>
+    </div>
+
+    <h3 style="color:var(--teal-dark);margin-bottom:1.5rem;font-size:1.2rem">👨‍⚕️ Medical Staff</h3>
+    <div style="background:white;border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:2rem">
+      <table class="doctors-table" style="margin:0">
+        <thead><tr><th>Doctor Name</th><th>Specialization</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Dr. Muneer Ahmed Abro</strong></td><td><span class="spec-badge">Sonologist</span></td></tr>
+          <tr><td><strong>Dr. Nain Tara</strong></td><td><span class="spec-badge">Microbiologist</span></td></tr>
+          <tr><td><strong>Dr. Sohail</strong></td><td><span class="spec-badge">Radiologist</span></td></tr>
+          <tr><td><strong>Dr. Salman</strong></td><td><span class="spec-badge">Pathologist</span></td></tr>
+          <tr><td><strong>Dr. Amreeb Ibrahim</strong></td><td><span class="spec-badge">Radiologist (Asst. Director Health Commissioner)</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="color:var(--teal-dark);margin-bottom:1rem;font-size:1.2rem">🔊 Available Scans & Services</h3>
+    <p style="color:var(--gray-500);font-size:0.9rem;margin-bottom:1.5rem">All scans available in both Simple Ultrasound and Color Doppler</p>
+    <div class="scan-grid" style="margin-bottom:2rem">
+      <div class="scan-card"><span class="si">🔬</span><span>Whole Abdomen (Complete Pet Scan)</span></div>
+      <div class="scan-card"><span class="si">🔬</span><span>Pelvis Scan</span></div>
+      <div class="scan-card"><span class="si">👶</span><span>FWB – Fetal Well Being</span></div>
+      <div class="scan-card"><span class="si">📈</span><span>FWB Growth Chart</span></div>
+      <div class="scan-card"><span class="si">🫘</span><span>KUB – Kidney, Urinary Bladder</span></div>
+      <div class="scan-card"><span class="si">🦋</span><span>Thyroid Scan</span></div>
+      <div class="scan-card"><span class="si">🔬</span><span>Testis Scan</span></div>
+    </div>
+    <button class="btn-primary" onclick="bookLabTest('Naval Diagnostic Clinic','Ultrasound/Radiology')">📅 Book Scan Appointment</button>
+  </div>
+</div>
+
+<!-- ═══════════ SERVICES PAGE ═══════════ -->
+<div id="page-services" class="page">
+  <div class="hero" style="padding:3rem 2rem 2.5rem">
+    <h1 style="font-size:2.2rem">Our <em>Services</em></h1>
+    <p>Comprehensive healthcare services across Karachi</p>
+  </div>
+  <div class="section fade-in">
+    <div class="section-title">Medical Specializations Available</div>
+    <p class="section-sub">Expert specialists across all our facilities</p>
+    <div class="services-grid">
+      <div class="service-card"><div class="service-icon">🫀</div><h4>Cardiology</h4><p>Heart health specialists at Ultramed & Kharadar General Hospital.</p></div>
+      <div class="service-card"><div class="service-icon">🦴</div><h4>Orthopedics</h4><p>Bone & joint specialists with multiple doctors at Ultramed.</p></div>
+      <div class="service-card"><div class="service-icon">👩‍⚕️</div><h4>Gynecology</h4><p>Women's health care at Murshid, Patni, Ultramed & Kharadar.</p></div>
+      <div class="service-card"><div class="service-icon">🧠</div><h4>Neurology</h4><p>Neuro Physicians and Surgeons at Kharadar General Hospital.</p></div>
+      <div class="service-card"><div class="service-icon">👁️</div><h4>Ophthalmology</h4><p>Eye surgeons and optometrists at Kharadar General Hospital.</p></div>
+      <div class="service-card"><div class="service-icon">👂</div><h4>ENT</h4><p>Ear, Nose & Throat specialists at Kharadar General Hospital.</p></div>
+      <div class="service-card"><div class="service-icon">🫁</div><h4>Pulmonology</h4><p>Lung & respiratory specialists at Ultramed & Kharadar.</p></div>
+      <div class="service-card"><div class="service-icon">🧬</div><h4>Gastroenterology</h4><p>Digestive health specialists at Kharadar General Hospital.</p></div>
+      <div class="service-card"><div class="service-icon">🧒</div><h4>Pediatrics</h4><p>Child health specialists at Patni & Kharadar Hospital.</p></div>
+      <div class="service-card"><div class="service-icon">🧠</div><h4>Psychiatry</h4><p>Mental health specialists at Ultramed & Kharadar General.</p></div>
+      <div class="service-card"><div class="service-icon">🫘</div><h4>Urology</h4><p>Urinary tract specialists at Ultramed & Kharadar Hospital.</p></div>
+      <div class="service-card"><div class="service-icon">🔬</div><h4>Diagnostics</h4><p>PCR, Ultrasound, Blood tests at Rahila Lab & Naval Clinic.</p></div>
+      <div class="service-card"><div class="service-icon">🍽️</div><h4>Nutrition & Dietetics</h4><p>Nutritionist at Ultramed; Dietitian at Murshid Hospital.</p></div>
+      <div class="service-card"><div class="service-icon">✂️</div><h4>General Surgery</h4><p>Experienced general surgeons across all facilities.</p></div>
+      <div class="service-card"><div class="service-icon">🦷</div><h4>Dental Surgery</h4><p>Dental surgeons with morning & evening timings at Kharadar.</p></div>
+      <div class="service-card"><div class="service-icon">🩺</div><h4>Internal Medicine</h4><p>General physicians and internists available daily.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ APPOINTMENT PAGE ═══════════ -->
+<div id="page-appointment" class="page">
+  <div class="appt-hero">
+    <h2>📅 Book an Appointment</h2>
+    <p style="opacity:0.8;margin-top:0.5rem">Quick, easy & confirmed in minutes</p>
+  </div>
+  <div class="appt-container">
+    <div class="appt-steps">
+      <div class="step-item active" id="step-ind-1"><div class="step-circle">1</div><div class="step-label">Select Facility</div></div>
+      <div class="step-item" id="step-ind-2"><div class="step-circle">2</div><div class="step-label">Choose Doctor</div></div>
+      <div class="step-item" id="step-ind-3"><div class="step-circle">3</div><div class="step-label">Your Details</div></div>
+      <div class="step-item" id="step-ind-4"><div class="step-circle">4</div><div class="step-label">Confirm</div></div>
+    </div>
+
+    <div class="appt-form-card">
+      <!-- Step 1 -->
+      <div class="form-step active" id="appt-step-1">
+        <h3>Select Healthcare Facility</h3>
+        <div class="facility-selector">
+          <div class="facility-option" onclick="selectFacility(this,'Ultramed Consultant Clinics')"><div class="fac-icon">🏥</div><div class="fac-name">Ultramed Clinics</div><div class="fac-type">PECHS, Karachi</div></div>
+          <div class="facility-option" onclick="selectFacility(this,'Murshid Hospital')"><div class="fac-icon">🏨</div><div class="fac-name">Murshid Hospital</div><div class="fac-type">Karachi</div></div>
+          <div class="facility-option" onclick="selectFacility(this,'Patni Hospital')"><div class="fac-icon">🏥</div><div class="fac-name">Patni Hospital</div><div class="fac-type">Karachi</div></div>
+          <div class="facility-option" onclick="selectFacility(this,'Kharadar General Hospital')"><div class="fac-icon">🏛️</div><div class="fac-name">Kharadar General</div><div class="fac-type">Kharadar, Karachi</div></div>
+          <div class="facility-option" onclick="selectFacility(this,'Rahila Research Lab')"><div class="fac-icon">🔬</div><div class="fac-name">Rahila Research Lab</div><div class="fac-type">Muhammad Ali Society</div></div>
+          <div class="facility-option" onclick="selectFacility(this,'Naval Diagnostic Clinic')"><div class="fac-icon">🔭</div><div class="fac-name">Naval Diagnostic</div><div class="fac-type">Naval Colony, Karachi</div></div>
+        </div>
+        <div class="form-btns"><button class="btn-next" onclick="nextStep(2)">Next →</button></div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="form-step" id="appt-step-2">
+        <h3>Select Department & Doctor</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Specialization / Department</label>
+            <select class="form-control" id="appt-spec">
+              <option value="">-- Select Specialization --</option>
+              <option>Cardiology</option><option>Orthopedics</option><option>Gynecology</option>
+              <option>General Surgery</option><option>Pediatrics</option><option>Psychiatry</option>
+              <option>Urology</option><option>Neurology</option><option>ENT</option>
+              <option>Ophthalmology</option><option>Pulmonology</option><option>Gastroenterology</option>
+              <option>Dermatology</option><option>Internal Medicine</option><option>Nutrition / Dietitian</option>
+              <option>Bariatric Surgery</option><option>Nephrology</option><option>Diabetology</option>
+              <option>Radiology / Ultrasound</option><option>Lab Test / Diagnostics</option>
+              <option>General Physician</option><option>Breast Surgery</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Doctor Name (optional)</label>
+            <input class="form-control" id="appt-doctor" type="text" placeholder="e.g. Dr. Farid Khan">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Preferred Date</label>
+            <input class="form-control" id="appt-date" type="date">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Preferred Time</label>
+            <select class="form-control" id="appt-time">
+              <option>Morning (9:00 AM - 12:00 PM)</option>
+              <option>Afternoon (12:00 PM - 4:00 PM)</option>
+              <option>Evening (4:00 PM - 8:00 PM)</option>
+              <option>Night (8:00 PM - 11:00 PM)</option>
+            </select>
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Reason for Visit / Chief Complaint</label>
+            <textarea class="form-control" id="appt-reason" rows="3" placeholder="Briefly describe your symptoms or reason for visit..."></textarea>
+          </div>
+        </div>
+        <div class="form-btns">
+          <button class="btn-prev" onclick="nextStep(1)">← Back</button>
+          <button class="btn-next" onclick="nextStep(3)">Next →</button>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="form-step" id="appt-step-3">
+        <h3>Your Personal Details</h3>
+        <div class="form-grid">
+          <div class="form-group"><label class="form-label">Full Name *</label><input class="form-control" id="p-name" type="text" placeholder="Muhammad Ali Khan"></div>
+          <div class="form-group"><label class="form-label">Age *</label><input class="form-control" id="p-age" type="number" placeholder="35"></div>
+          <div class="form-group"><label class="form-label">Gender *</label><select class="form-control" id="p-gender"><option>Male</option><option>Female</option><option>Other</option></select></div>
+          <div class="form-group"><label class="form-label">Phone Number *</label><input class="form-control" id="p-phone" type="tel" placeholder="0300-1234567"></div>
+          <div class="form-group full"><label class="form-label">Email Address</label><input class="form-control" id="p-email" type="email" placeholder="example@gmail.com"></div>
+          <div class="form-group full"><label class="form-label">Address</label><input class="form-control" id="p-address" type="text" placeholder="Street, Area, Karachi"></div>
+        </div>
+        <div class="form-btns">
+          <button class="btn-prev" onclick="nextStep(2)">← Back</button>
+          <button class="btn-next" onclick="nextStep(4)">Review →</button>
+        </div>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="form-step" id="appt-step-4">
+        <h3>Review & Confirm</h3>
+        <div id="appt-summary" style="background:var(--gray-100);border-radius:var(--radius-sm);padding:1.25rem;margin-bottom:1.25rem;font-size:0.9rem;line-height:2"></div>
+        <div style="background:rgba(13,110,110,0.08);border:1px solid var(--teal-light);border-radius:var(--radius-sm);padding:1rem;font-size:0.85rem;color:var(--teal-dark);margin-bottom:1rem">
+          ℹ️ <strong>Note:</strong> After submitting, our team will call you within 2–4 hours to confirm your appointment slot.
+        </div>
+        <div class="form-btns">
+          <button class="btn-prev" onclick="nextStep(3)">← Back</button>
+          <button class="btn-next" onclick="submitAppointment()">✅ Confirm Appointment</button>
+        </div>
+      </div>
+
+      <!-- Success -->
+      <div class="form-step" id="appt-success">
+        <div class="success-card">
+          <div class="success-icon">✅</div>
+          <h3>Appointment Booked Successfully!</h3>
+          <p style="color:var(--gray-500);margin-bottom:0.5rem">Your reference number:</p>
+          <div class="appt-ref" id="appt-ref-num">MC-000000</div>
+          <p style="color:var(--gray-500);font-size:0.9rem;margin-bottom:1.5rem">Our team will contact you shortly to confirm your appointment. Please save your reference number.</p>
+          <button class="btn-next" onclick="showPage('home')">🏠 Back to Home</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ CONTACT PAGE ═══════════ -->
+<div id="page-contact" class="page">
+  <div class="hero" style="padding:3rem 2rem 2.5rem">
+    <h1 style="font-size:2.2rem"><em>Contact</em> & Locations</h1>
+    <p>Find the right facility and reach out to us</p>
+  </div>
+  <div class="contact-grid" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr))">
+
+    <div class="contact-card">
+      <h4>🏥 Ultramed Consultant Clinics & Diagnostics</h4>
+      <div class="contact-row"><span class="ci">📍</span><span>Block 2, PECHS, Karachi</span></div>
+      <div class="contact-row"><span class="ci">⏰</span><span>By Appointment / Fixed Schedules</span></div>
+      <div class="contact-row"><span class="ci">🩺</span><span>16 Specialist Doctors</span></div>
+      <button class="appt-btn-sm" style="margin-top:0.75rem" onclick="showPage('appointment')">Book Appointment</button>
+    </div>
+
+    <div class="contact-card">
+      <h4>🏨 Murshid Hospital</h4>
+      <div class="contact-row"><span class="ci">📍</span><span>Karachi, Pakistan</span></div>
+      <div class="contact-row"><span class="ci">⏰</span><span>8:00 AM – 9:00 PM</span></div>
+      <div class="contact-row"><span class="ci">📅</span><span>Sunday Off (Some Departments)</span></div>
+      <button class="appt-btn-sm" style="margin-top:0.75rem" onclick="showPage('appointment')">Book Appointment</button>
+    </div>
+
+    <div class="contact-card">
+      <h4>🏥 Patni Hospital</h4>
+      <div class="contact-row"><span class="ci">📍</span><span>Karachi, Pakistan</span></div>
+      <div class="contact-row"><span class="ci">⏰</span><span>8:00 AM – 4:00 PM (Sunday Off)</span></div>
+      <div class="contact-row"><span class="ci">🩺</span><span>Gynecology · Pediatrics · Surgery</span></div>
+      <button class="appt-btn-sm" style="margin-top:0.75rem" onclick="showPage('appointment')">Book Appointment</button>
+    </div>
+
+    <div class="contact-card">
+      <h4>🏛️ Kharadar General Hospital</h4>
+      <div class="contact-row"><span class="ci">📍</span><span>Aga Khan Road, Kharadar, Karachi</span></div>
+      <div class="contact-row"><span class="ci">📞</span><span>021-32510113 | 021-32510114 | 021-32510115 | 021-32510116</span></div>
+      <div class="contact-row"><span class="ci">📞</span><span>021-111 544 544</span></div>
+      <div class="contact-row"><span class="ci">⏰</span><span>Morning & Evening OPD (Mon–Sat)</span></div>
+      <button class="appt-btn-sm" style="margin-top:0.75rem" onclick="showPage('appointment')">Book Appointment</button>
+    </div>
+
+    <div class="contact-card">
+      <h4>🔬 Rahila Research & Reference Lab</h4>
+      <div class="contact-row"><span class="ci">📍</span><span>F 7-8, Usmania Center, Muhammad Ali Society, Commercial Market, Karachi</span></div>
+      <div class="contact-row"><span class="ci">📞</span><span>021-34383054</span></div>
+      <div class="contact-row"><span class="ci">📞</span><span>021-34383055</span></div>
+      <div class="contact-row"><span class="ci">📞</span><span>021-34529803</span></div>
+      <div class="contact-row"><span class="ci">📧</span><span>rahilalab@gmail.com</span></div>
+      <div class="contact-row"><span class="ci">🌐</span><span>www.rahilalabs.com</span></div>
+      <button class="appt-btn-sm" style="margin-top:0.75rem" onclick="bookLabTest('Rahila Research Lab','General')">Book Lab Test</button>
+    </div>
+
+    <div class="contact-card">
+      <h4>🔭 Naval Diagnostic Clinic</h4>
+      <div class="contact-row"><span class="ci">📍</span><span>Sector 4, SK Street, Opposite Haroon Bahria College, Naval Colony, Karachi</span></div>
+      <div class="contact-row"><span class="ci">⏰</span><span>9:00 AM – 11:00 PM (Daily)</span></div>
+      <div class="contact-row"><span class="ci">🔬</span><span>Ultrasound · Color Doppler · Radiology · Pathology · Microbiology</span></div>
+      <button class="appt-btn-sm" style="margin-top:0.75rem" onclick="bookLabTest('Naval Diagnostic Clinic','Ultrasound')">Book Scan</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ─── CHAT FAB ─── -->
+<button id="chat-fab" onclick="toggleChat()">
+  💬
+  <div id="chat-badge">1</div>
+</button>
+
+<div id="chat-window">
+  <div class="chat-header">
+    <div class="chat-avatar">🤖</div>
+    <div class="chat-header-info">
+      <strong>MedConnect Assistant</strong>
+      <small>🟢 Online • Usually replies instantly</small>
+    </div>
+    <button class="chat-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-messages" id="chat-messages"></div>
+  <div class="chat-quick-btns" id="quick-btns">
+    <button class="quick-btn" onclick="sendQuick('Book an appointment')">📅 Book Appointment</button>
+    <button class="quick-btn" onclick="sendQuick('List of hospitals')">🏥 Hospitals</button>
+    <button class="quick-btn" onclick="sendQuick('Lab tests available')">🔬 Lab Tests</button>
+    <button class="quick-btn" onclick="sendQuick('Find a cardiologist')">❤️ Cardiologist</button>
+  </div>
+  <div class="chat-input-row">
+    <input class="chat-input" id="chat-input" type="text" placeholder="Ask about doctors, timings, tests..." onkeypress="if(event.key==='Enter')sendChat()">
+    <button class="chat-send" onclick="sendChat()">➤</button>
+  </div>
+</div>
+
+<script>
+// ─── DATA ───
+const hospitals = {
+  ultramed: {
+    name: "Ultramed Consultant Clinics & Diagnostics",
+    address: "Block 2, PECHS, Karachi",
+    phone: "Contact at Reception",
+    badge: "CONSULTANT CLINIC · PECHS",
+    icon: "🏥",
+    timings: "By Appointment / Fixed Schedules",
+    doctors: [
+      {name:"Dr. M Farid Khan",spec:"Cardiologist",timing:"By Appointment"},
+      {name:"Prof. Dr. Bushra Wasim",spec:"General & Breast Surgeon",timing:"By Appointment"},
+      {name:"Dr. Javeria Junaid",spec:"Orthopedic Surgeon",timing:"Tue & Thu (4:00 PM – 6:00 PM)"},
+      {name:"Ms. Najam Us Sahar",spec:"Psychologist",timing:"Tue, Wed & Sat (6:00 PM – 8:00 PM)"},
+      {name:"Dr. Asim Aziz",spec:"Orthopedic Surgeon",timing:"Tue & Thu (6:00 PM – 8:00 PM)"},
+      {name:"Dr. Rubina Bashir",spec:"General Surgeon",timing:"Mon & Thu (10:00 AM – 12:00 PM)"},
+      {name:"Dr. Syed Asif Ali",spec:"General & Bariatric Surgeon",timing:"Mon to Sat (5:00 PM – 7:00 PM)"},
+      {name:"Dr. Jai Parkash",spec:"Urologist",timing:"Tue & Thu (5:00 PM – 6:00 PM)"},
+      {name:"Dr. Nasreen Fatima",spec:"Gynecologist",timing:"By Appointment"},
+      {name:"Prof. Dr. Ashok Kumar",spec:"Pulmonologist",timing:"Mon, Wed & Fri (7:00 PM – 8:00 PM)"},
+      {name:"Dr. Shahzeb Solangi",spec:"Orthopedic Surgeon",timing:"By Appointment"},
+      {name:"Mr. Anis Alam",spec:"Nutritionist",timing:"Tue & Thu (6:00 PM – 8:00 PM)"},
+      {name:"Prof. Dr. Niaz Ahmed",spec:"Internal Medicine",timing:"By Appointment"},
+      {name:"Dr. Abdul Rauf",spec:"Psychiatrist",timing:"Tue, Wed, Thu & Sat (4:30 PM – 7:30 PM)"},
+      {name:"Dr. Naushin Rashid",spec:"Gynecologist",timing:"Tue, Wed & Thu (3:00 PM – 5:00 PM)"},
+      {name:"Dr. Saddam Mazar",spec:"Orthopedic Surgeon",timing:"By Appointment"},
+    ]
+  },
+  murshid: {
+    name: "Murshid Hospital",
+    address: "Karachi, Pakistan",
+    phone: "Contact at Reception",
+    badge: "HOSPITAL · KARACHI",
+    icon: "🏨",
+    timings: "8:00 AM – 9:00 PM",
+    doctors: [
+      {name:"Dr. Samreen",spec:"Gynecologist",timing:"8:00 AM – 4:00 PM"},
+      {name:"Dr. Haseena",spec:"Gynecologist",timing:"8:00 AM – 8:00 PM"},
+      {name:"Dr. Faizan",spec:"Dietitian",timing:"8:00 AM – 6:00 PM"},
+      {name:"Dr. Asfa",spec:"Gynecologist",timing:"9:00 AM – 9:00 PM"},
+      {name:"Dr. Kashif",spec:"Dermatologist",timing:"8:00 AM – 4:00 PM (Sunday Off)"},
+    ]
+  },
+  patni: {
+    name: "Patni Hospital",
+    address: "Karachi, Pakistan",
+    phone: "Contact at Reception",
+    badge: "HOSPITAL · KARACHI",
+    icon: "🏥",
+    timings: "8:00 AM – 4:00 PM (Sunday Off)",
+    doctors: [
+      {name:"Dr. Shamma",spec:"Gynecologist",timing:"Tue & Thu (9:00 AM – 12:00 PM)"},
+      {name:"Dr. Afshan",spec:"Gynecologist",timing:"All Days (9:00 AM – 4:00 PM)"},
+      {name:"Dr. Hareesh",spec:"General Surgeon",timing:"9:00 AM – 2:00 PM (Sunday Off)"},
+      {name:"Dr. Madhan Kumar",spec:"Pediatrician",timing:"9:00 AM – 12:00 PM (Sunday Off)"},
+      {name:"Dr. Salma",spec:"Pediatrician",timing:"8:00 AM – 12:00 PM (Sunday Off)"},
+      {name:"Dr. Aamir",spec:"General Physician",timing:"9:00 AM – 3:00 PM (Sunday Off)"},
+    ]
+  },
+  kharadar: {
+    name: "Kharadar General Hospital",
+    address: "Aga Khan Road, Kharadar, Karachi",
+    phone: "021-32510113-116 | 021-111 544 544",
+    badge: "GENERAL HOSPITAL · KHARADAR",
+    icon: "🏛️",
+    timings: "Morning & Evening OPD",
+    doctors: [
+      {name:"Dr. Mushtaque Badami",spec:"General Physician",timing:"Mon–Fri (3:00–4:30 PM & 5:00–7:30 PM)"},
+      {name:"Dr. Rajesh Motwani",spec:"General Physician",timing:"Saturday (2:00–4:00 PM)"},
+      {name:"Dr. Shazia Ilyas",spec:"General Physician",timing:"Mon–Sat (9:00 AM–3:00 PM)"},
+      {name:"Dr. Rehan",spec:"General Physician",timing:"Mon–Sat (6:30–7:30 PM)"},
+      {name:"Dr. Asif Nasim",spec:"Chest Physician",timing:"Tue (11AM–1PM) | Thu (11AM–12:30PM) | Fri (10:30AM–12PM)"},
+      {name:"Dr. Dileep Kumar",spec:"Cardiologist",timing:"Mon–Wed–Fri (2:00–3:00 PM)"},
+      {name:"Dr. Mustajab Mujtaba",spec:"Cardiologist",timing:"Tue–Thu–Sat (4:00–6:00 PM)"},
+      {name:"Dr. Jai Perkash",spec:"Neuro Physician",timing:"Mon/Wed (2:30–4:30 PM) | Fri (2:00–4:00 PM)"},
+      {name:"Dr. Yahya",spec:"Neuro Physician",timing:"Tue & Thu (5:00–6:00 PM)"},
+      {name:"Dr. Humera Khalid",spec:"Psychiatrist",timing:"Saturday (6:00–7:00 PM)"},
+      {name:"Dr. Kishor Kumar",spec:"Psychiatrist",timing:"Mon–Fri (2:00–4:00 PM) | Wed (4:00–6:00 PM)"},
+      {name:"Dr. Maria Qureshi",spec:"Nephrologist",timing:"Mon–Fri (9AM–2PM) | Sat (9AM–12PM)"},
+      {name:"Dr. Farooq Memon",spec:"Diabetologist",timing:"Mon–Fri (4:00–6:00 PM)"},
+      {name:"Dr. Faisal Ziauddin",spec:"Gastroenterologist",timing:"Tue–Thu–Sat (1:00–2:00 PM)"},
+      {name:"Dr. Hafiz Haris",spec:"Gastroenterologist",timing:"Mon–Wed–Fri (3:00–5:00 PM)"},
+      {name:"Dr. Rani Tulsi",spec:"Gastroenterologist",timing:"Mon–Fri (2:00–3:00 PM)"},
+      {name:"Dr. Parkash Chand",spec:"Skin Specialist",timing:"Mon–Fri–Sat (12:00–2:00 PM)"},
+      {name:"Dr. Vijay Anand",spec:"Skin Specialist",timing:"Tue–Wed–Thu (2:30–4:30 PM)"},
+      {name:"Dr. Capt. M. Younus",spec:"General Surgeon",timing:"Mon & Thu (10:00 AM–12:00 PM)"},
+      {name:"Dr. Naveed Ali Khan",spec:"General Surgeon",timing:"Mon–Tue–Thu–Sat (4:00–5:00 PM)"},
+      {name:"Dr. M. Rauf Sheikh",spec:"General Surgeon",timing:"Mon/Wed/Fri (6:00–8:00 PM) | Thu (4:00–5:00 PM)"},
+      {name:"Dr. Ali M. Khatri",spec:"General Surgeon",timing:"Tue/Thu/Sat (6:30–7:30 PM) | Wed (3:00–4:00 PM)"},
+      {name:"Dr. Munawer Mangi",spec:"General Surgeon",timing:"Tue–Wed–Fri–Sat (2:00–4:00 PM)"},
+      {name:"Dr. Ashfaq Ahmed",spec:"General Surgeon",timing:"Mon–Sat (9:00 AM–2:00 PM)"},
+      {name:"Dr. M. Sameer",spec:"Neuro Surgeon",timing:"Friday (4:00–6:00 PM)"},
+      {name:"Dr. Jehan Afroz",spec:"Dental Surgeon",timing:"Mon–Sat (9:00 AM–2:00 PM)"},
+      {name:"Dr. Akber Ali",spec:"Dental Surgeon",timing:"Mon–Sat (2:00–5:00 PM)"},
+      {name:"Dr. Munawer Din",spec:"Dental Surgeon",timing:"Mon–Sat (5:00–8:00 PM)"},
+      {name:"Dr. Shahnawaz",spec:"Urologist",timing:"Wed & Sat (1:30–2:30 PM)"},
+      {name:"Dr. Raja Rizwan Ahmed",spec:"Urologist",timing:"Tue & Thu (5:00–6:30 PM)"},
+      {name:"Dr. Krishan Lal",spec:"Orthopedic Surgeon",timing:"Mon–Wed–Fri–Sat (2:00–4:00 PM)"},
+      {name:"Dr. M. Hunain",spec:"Orthopedic Surgeon",timing:"Wed & Sat (5:00–7:00 PM)"},
+      {name:"Dr. Munawar Khatri",spec:"ENT Surgeon",timing:"Mon–Sat (3:00–6:00 PM)"},
+      {name:"Dr. Murtaza Ahsan",spec:"ENT Surgeon",timing:"Tue–Wed–Thu–Sat (1:00–3:00 PM)"},
+      {name:"Dr. A. Samad Ahmed",spec:"Eye Surgeon",timing:"Mon & Tue (2:00–4:00 PM)"},
+      {name:"Dr. Zain Ul Abideen",spec:"Eye Medical Officer",timing:"Mon–Sat (9:00 AM–2:00 PM)"},
+      {name:"Ms. Beenish",spec:"Optometrist (Morning)",timing:"Mon–Sat (9:00 AM–3:00 PM)"},
+      {name:"Ms. Fakeha",spec:"Optometrist (Evening)",timing:"Mon–Sat (3:00–8:00 PM)"},
+      {name:"Dr. Mohsina Siddiq",spec:"Paeds Surgeon",timing:"Mon–Wed–Fri (5:00–7:00 PM)"},
+      {name:"Dr. Asadullah",spec:"Pediatrician",timing:"Mon–Sat (5:00–8:00 PM, Wed Off)"},
+      {name:"Dr. Huma Khalil",spec:"Sonologist",timing:"Mon–Sat (9:30 AM–12:00 PM)"},
+      {name:"Dr. Ajay Kumar",spec:"Sonologist",timing:"Mon–Sat (1:00–2:00 PM & 5:00–8:00 PM)"},
+      {name:"Dr. Santosh Kumar",spec:"Sonologist",timing:"Mon–Sat (2:30–5:00 PM)"},
+      {name:"Dr. Saira Zafar",spec:"Sonologist",timing:"Mon–Sat (9:00 PM–12:00 AM)"},
+    ]
+  }
+};
+
+let currentApptStep = 1;
+let selectedFacility = '';
+
+// ─── PAGE NAVIGATION ───
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function setActive(btn) {
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ─── HOSPITAL DETAIL ───
+function showHospital(id) {
+  const h = hospitals[id];
+  if(!h) return;
+  const rows = h.doctors.map(d => `
+    <tr>
+      <td><strong>${d.name}</strong></td>
+      <td><span class="spec-badge">${d.spec}</span></td>
+      <td><span class="timing-badge">${d.timing}</span></td>
+      <td><button class="appt-btn-sm" onclick="prefillAppt('${h.name}','${d.spec}','${d.name}')">Book</button></td>
+    </tr>`).join('');
+
+  document.getElementById('hospital-detail-content').innerHTML = `
+    <div class="detail-header">
+      <button class="back-btn" onclick="history.back(); showPage('hospitals')">← Back to Hospitals</button>
+      <div style="font-size:2.5rem;margin-bottom:0.5rem">${h.icon}</div>
+      <div class="detail-title">${h.name}</div>
+      <div class="detail-meta">
+        <div class="detail-meta-item">📍 ${h.address}</div>
+        <div class="detail-meta-item">📞 ${h.phone}</div>
+        <div class="detail-meta-item">⏰ ${h.timings}</div>
+        <div class="detail-meta-item">👨‍⚕️ ${h.doctors.length} Doctors</div>
+      </div>
+    </div>
+    <div class="search-wrap">
+      <input class="search-input" type="text" placeholder="🔍 Search doctor or specialization..." oninput="filterTable(this.value,'${id}')">
+      <select class="filter-select" onchange="filterBySpec(this.value,'${id}')">
+        <option value="">All Specializations</option>
+        ${[...new Set(h.doctors.map(d=>d.spec))].map(s=>`<option>${s}</option>`).join('')}
+      </select>
+      <button class="btn-primary" onclick="showPage('appointment')" style="padding:0.65rem 1.25rem;font-size:0.9rem">📅 Book Appointment</button>
+    </div>
+    <div class="doctors-table-wrap">
+      <table class="doctors-table fade-in" id="table-${id}">
+        <thead><tr><th>Doctor Name</th><th>Specialization</th><th>Timings</th><th>Action</th></tr></thead>
+        <tbody id="tbody-${id}">${rows}</tbody>
+      </table>
+    </div>`;
+
+  showPage('hospital-detail');
+}
+
+function filterTable(val, id) {
+  const v = val.toLowerCase();
+  document.querySelectorAll(`#tbody-${id} tr`).forEach(tr => {
+    tr.style.display = tr.innerText.toLowerCase().includes(v) ? '' : 'none';
+  });
+}
+
+function filterBySpec(val, id) {
+  const h = hospitals[id];
+  const filtered = val ? h.doctors.filter(d=>d.spec===val) : h.doctors;
+  document.getElementById(`tbody-${id}`).innerHTML = filtered.map(d=>`
+    <tr>
+      <td><strong>${d.name}</strong></td>
+      <td><span class="spec-badge">${d.spec}</span></td>
+      <td><span class="timing-badge">${d.timing}</span></td>
+      <td><button class="appt-btn-sm" onclick="prefillAppt('${h.name}','${d.spec}','${d.name}')">Book</button></td>
+    </tr>`).join('');
+}
+
+// ─── LABS ───
+function switchLabView(id, btn) {
+  document.querySelectorAll('.lab-section').forEach(l => l.style.display='none');
+  document.getElementById('lab-'+id).style.display='block';
+  document.querySelectorAll('.lab-hero .lab-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function showLabDetail(id) {
+  setTimeout(() => switchLabView(id, document.querySelector(`.lab-hero .lab-tab:${id==='rahila'?'first-child':'last-child'}`)), 100);
+}
+
+function switchRahilaTab(id, btn) {
+  document.querySelectorAll('.test-category').forEach(t=>t.classList.remove('active'));
+  document.getElementById('rtab-'+id).classList.add('active');
+  document.querySelectorAll('#lab-rahila .lab-tab').forEach(b=>{
+    b.style.background='var(--gray-200)';b.style.color='var(--teal-dark)';
+  });
+  btn.style.background='var(--teal)';btn.style.color='white';
+}
+
+function bookLabTest(facility, dept) {
+  selectedFacility = facility;
+  document.getElementById('appt-spec').value = 'Lab Test / Diagnostics';
+  document.getElementById('appt-reason').value = `Lab test request: ${dept}`;
+  showPage('appointment');
+  nextStep(2);
+}
+
+// ─── APPOINTMENT ───
+function selectFacility(el, name) {
+  document.querySelectorAll('.facility-option').forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedFacility = name;
+}
+
+function prefillAppt(facility, spec, doctor) {
+  showPage('appointment');
+  selectedFacility = facility;
+  document.getElementById('appt-spec').value = spec;
+  document.getElementById('appt-doctor').value = doctor;
+  nextStep(2);
+  // Pre-select facility
+  document.querySelectorAll('.facility-option').forEach(o=>{
+    if(o.querySelector('.fac-name').textContent.trim() === facility.split(' ').slice(0,2).join(' ') ||
+       facility.toLowerCase().includes(o.querySelector('.fac-name').textContent.toLowerCase().split(' ')[0].toLowerCase())) {
+      o.classList.add('selected');
+    }
+  });
+}
+
+function nextStep(n) {
+  // Validate basic required on step 3
+  if(currentApptStep===3 && n===4) {
+    const name = document.getElementById('p-name').value.trim();
+    const phone = document.getElementById('p-phone').value.trim();
+    if(!name||!phone){alert('Please fill in your name and phone number.');return;}
+  }
+  if(n===4) buildSummary();
+
+  document.querySelectorAll('.form-step').forEach(s=>s.classList.remove('active'));
+  document.getElementById('appt-step-'+n).classList.add('active');
+
+  for(let i=1;i<=4;i++){
+    const si=document.getElementById('step-ind-'+i);
+    si.classList.remove('active','done');
+    if(i<n) si.classList.add('done');
+    if(i===n) si.classList.add('active');
+  }
+  currentApptStep=n;
+  window.scrollTo({top:200,behavior:'smooth'});
+}
+
+function buildSummary() {
+  const fac = selectedFacility || document.querySelector('.facility-option.selected .fac-name')?.textContent || 'Not selected';
+  const spec = document.getElementById('appt-spec').value || '—';
+  const doc = document.getElementById('appt-doctor').value || 'Any available';
+  const date = document.getElementById('appt-date').value || 'Flexible';
+  const time = document.getElementById('appt-time').value;
+  const name = document.getElementById('p-name').value;
+  const age = document.getElementById('p-age').value;
+  const gender = document.getElementById('p-gender').value;
+  const phone = document.getElementById('p-phone').value;
+  const reason = document.getElementById('appt-reason').value || '—';
+
+  document.getElementById('appt-summary').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem 1.5rem">
+      <div>🏥 <strong>Facility:</strong> ${fac}</div>
+      <div>🩺 <strong>Specialization:</strong> ${spec}</div>
+      <div>👨‍⚕️ <strong>Doctor:</strong> ${doc}</div>
+      <div>📅 <strong>Date:</strong> ${date}</div>
+      <div>⏰ <strong>Time:</strong> ${time}</div>
+      <div>👤 <strong>Patient:</strong> ${name}, ${age} yrs (${gender})</div>
+      <div>📞 <strong>Phone:</strong> ${phone}</div>
+      <div>💬 <strong>Reason:</strong> ${reason}</div>
+    </div>`;
+}
+
+function submitAppointment() {
+  const ref = 'MC-' + Math.floor(100000+Math.random()*900000);
+  document.getElementById('appt-ref-num').textContent = ref;
+  document.querySelectorAll('.form-step').forEach(s=>s.classList.remove('active'));
+  document.getElementById('appt-success').classList.add('active');
+  for(let i=1;i<=4;i++) document.getElementById('step-ind-'+i).classList.add('done');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ─── CHAT ───
+let chatOpen = false;
+const greetMsg = "Assalam u Alaikum! 👋 I'm MedConnect Assistant. I can help you find doctors, check timings, book appointments, and learn about our facilities in Karachi. How can I help you today?";
+
+function toggleChat() {
+  chatOpen = !chatOpen;
+  const win = document.getElementById('chat-window');
+  win.classList.toggle('open', chatOpen);
+  document.getElementById('chat-badge').style.display = chatOpen?'none':'flex';
+  if(chatOpen && document.getElementById('chat-messages').children.length===0) {
+    addMsg('bot', greetMsg);
+  }
+}
+
+function addMsg(type, text) {
+  const msgs = document.getElementById('chat-messages');
+  const now = new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+  const div = document.createElement('div');
+  div.className = `msg ${type}`;
+  div.innerHTML = `<div class="msg-bubble">${text}</div><div class="msg-time">${now}</div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function showTyping() {
+  const msgs = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = 'msg bot';
+  div.id = 'typing-indicator';
+  div.innerHTML = `<div class="msg-bubble"><div class="typing-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function removeTyping() {
+  const t = document.getElementById('typing-indicator');
+  if(t) t.remove();
+}
+
+function sendQuick(text) { processChat(text); }
+
+function sendChat() {
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if(!text) return;
+  input.value = '';
+  processChat(text);
+}
+
+function processChat(text) {
+  addMsg('user', text);
+  showTyping();
+  setTimeout(() => {
+    removeTyping();
+    addMsg('bot', getBotReply(text));
+  }, 900 + Math.random()*500);
+}
+
+function getBotReply(msg) {
+  const m = msg.toLowerCase();
+
+  if(m.includes('appointment') || m.includes('book') || m.includes('appoint')) {
+    return `📅 You can book an appointment easily! Just click the <strong>"Book Appointment"</strong> button in the top navigation or <a href="#" onclick="showPage('appointment');toggleChat()" style="color:var(--teal);font-weight:600">click here</a>.<br><br>We have 6 facilities: Ultramed, Murshid, Patni, Kharadar General Hospital, Rahila Lab, and Naval Diagnostic Clinic.`;
+  }
+  if(m.includes('ultramed')) {
+    return `🏥 <strong>Ultramed Consultant Clinics & Diagnostics</strong><br>📍 Block 2, PECHS, Karachi<br>👨‍⚕️ 16 Specialist Doctors including Cardiologist, Orthopedic Surgeons, Gynecologists, Psychologist, Urologist, Pulmonologist & more.<br><br><a href="#" onclick="showHospital('ultramed');toggleChat()" style="color:var(--teal);font-weight:600">→ View all doctors</a>`;
+  }
+  if(m.includes('murshid')) {
+    return `🏨 <strong>Murshid Hospital</strong><br>📍 Karachi<br>⏰ 8:00 AM – 9:00 PM<br>👨‍⚕️ Gynecologists (Dr. Samreen, Dr. Haseena, Dr. Asfa), Dermatologist (Dr. Kashif), Dietitian (Dr. Faizan).<br><br><a href="#" onclick="showHospital('murshid');toggleChat()" style="color:var(--teal);font-weight:600">→ View all doctors</a>`;
+  }
+  if(m.includes('patni')) {
+    return `🏥 <strong>Patni Hospital</strong><br>📍 Karachi (Sunday Off)<br>⏰ 8:00 AM – 4:00 PM<br>👨‍⚕️ Gynecologists, Pediatricians (Dr. Madhan Kumar, Dr. Salma), General Surgeon (Dr. Hareesh).<br><br><a href="#" onclick="showHospital('patni');toggleChat()" style="color:var(--teal);font-weight:600">→ View all doctors</a>`;
+  }
+  if(m.includes('kharadar')) {
+    return `🏛️ <strong>Kharadar General Hospital</strong><br>📍 Aga Khan Road, Kharadar, Karachi<br>📞 021-32510113-116 | 021-111 544 544<br>👨‍⚕️ 40+ Doctors across 20+ departments.<br><br><a href="#" onclick="showHospital('kharadar');toggleChat()" style="color:var(--teal);font-weight:600">→ View all doctors</a>`;
+  }
+  if(m.includes('rahila') || m.includes('lab')) {
+    return `🔬 <strong>Rahila Research & Reference Lab</strong><br>📍 Usmania Center, Muhammad Ali Society, Karachi<br>📞 021-34383054 / 021-34383055<br>📧 rahilalab@gmail.com<br>🌐 www.rahilalabs.com<br><br>Available tests: Chemistry, Hematology, Microbiology, PCR Diagnostics (HCV RNA, HBV DNA).<br><a href="#" onclick="showPage('labs');toggleChat()" style="color:var(--teal);font-weight:600">→ View all tests</a>`;
+  }
+  if(m.includes('naval') || m.includes('ultrasound') || m.includes('scan')) {
+    return `🔭 <strong>Naval Diagnostic Clinic</strong><br>📍 Sector 4, SK Street, Opp. Haroon Bahria College, Naval Colony, Karachi<br>⏰ 9:00 AM – 11:00 PM Daily<br><br>Scans available: Whole Abdomen, Pelvis, FWB, KUB, Thyroid, Testis (both Simple Ultrasound & Color Doppler).<br><a href="#" onclick="showPage('labs');switchLabView('naval',document.querySelectorAll('.lab-hero .lab-tab')[1]);toggleChat()" style="color:var(--teal);font-weight:600">→ View services</a>`;
+  }
+  if(m.includes('cardiolog') || m.includes('heart')) {
+    return `❤️ <strong>Cardiologists available:</strong><br>• <strong>Dr. M Farid Khan</strong> – Ultramed, PECHS (By Appointment)<br>• <strong>Dr. Dileep Kumar</strong> – Kharadar General (Mon/Wed/Fri, 2–3 PM)<br>• <strong>Dr. Mustajab Mujtaba</strong> – Kharadar General (Tue/Thu/Sat, 4–6 PM)`;
+  }
+  if(m.includes('gynecolog') || m.includes('gynae') || m.includes('ladies') || m.includes('female doctor')) {
+    return `👩‍⚕️ <strong>Gynecologists available:</strong><br>• Dr. Nasreen Fatima – Ultramed (By Appointment)<br>• Dr. Naushin Rashid – Ultramed (Tue/Wed/Thu, 3–5 PM)<br>• Dr. Samreen, Dr. Haseena, Dr. Asfa – Murshid Hospital<br>• Dr. Shamma, Dr. Afshan – Patni Hospital`;
+  }
+  if(m.includes('orthoped') || m.includes('bone') || m.includes('joint')) {
+    return `🦴 <strong>Orthopedic Surgeons:</strong><br>• Dr. Javeria Junaid – Ultramed (Tue & Thu, 4–6 PM)<br>• Dr. Asim Aziz – Ultramed (Tue & Thu, 6–8 PM)<br>• Dr. Shahzeb Solangi – Ultramed (By Appointment)<br>• Dr. Saddam Mazar – Ultramed (By Appointment)<br>• Dr. Krishan Lal – Kharadar (Mon/Wed/Fri/Sat)<br>• Dr. M. Hunain – Kharadar (Wed & Sat)`;
+  }
+  if(m.includes('dentist') || m.includes('dental') || m.includes('teeth')) {
+    return `🦷 <strong>Dental Surgeons at Kharadar General Hospital:</strong><br>• Dr. Jehan Afroz – Mon–Sat (9 AM–2 PM)<br>• Dr. Akber Ali – Mon–Sat (2–5 PM)<br>• Dr. Munawer Din – Mon–Sat (5–8 PM)<br><br>Full day dental coverage 9 AM–8 PM!`;
+  }
+  if(m.includes('eye') || m.includes('vision') || m.includes('ophthalmol')) {
+    return `👁️ <strong>Eye Services at Kharadar General Hospital:</strong><br>• Dr. A. Samad Ahmed (Eye Surgeon) – Mon & Tue (2–4 PM)<br>• Dr. Zain Ul Abideen (Eye MO) – Mon–Sat (9 AM–2 PM)<br>• Ms. Beenish (Optometrist, Morning) – Mon–Sat (9 AM–3 PM)<br>• Ms. Fakeha (Optometrist, Evening) – Mon–Sat (3–8 PM)`;
+  }
+  if(m.includes('ent') || m.includes('ear') || m.includes('nose') || m.includes('throat')) {
+    return `👂 <strong>ENT Surgeons at Kharadar General Hospital:</strong><br>• Dr. Munawar Khatri – Mon–Sat (3:00–6:00 PM)<br>• Dr. Murtaza Ahsan – Tue/Wed/Thu/Sat (1:00–3:00 PM)`;
+  }
+  if(m.includes('psychiatr') || m.includes('mental health') || m.includes('psycholog')) {
+    return `🧠 <strong>Psychiatry / Psychology:</strong><br>• Dr. Abdul Rauf (Psychiatrist) – Ultramed, Tue/Wed/Thu/Sat (4:30–7:30 PM)<br>• Ms. Najam Us Sahar (Psychologist) – Ultramed, Tue/Wed/Sat (6–8 PM)<br>• Dr. Humera Khalid (Psychiatrist) – Kharadar, Sat (6–7 PM)<br>• Dr. Kishor Kumar (Psychiatrist) – Kharadar, Mon–Fri (2–4 PM) + Wed extra`;
+  }
+  if(m.includes('hospital') || m.includes('clinic') || m.includes('list')) {
+    return `🏥 <strong>Our Healthcare Facilities:</strong><br>1. Ultramed Consultant Clinics (PECHS)<br>2. Murshid Hospital (Karachi)<br>3. Patni Hospital (Karachi)<br>4. Kharadar General Hospital (Kharadar)<br>5. Rahila Research & Reference Lab<br>6. Naval Diagnostic Clinic (Naval Colony)<br><br><a href="#" onclick="showPage('hospitals');toggleChat()" style="color:var(--teal);font-weight:600">→ View all hospitals</a>`;
+  }
+  if(m.includes('contact') || m.includes('address') || m.includes('phone') || m.includes('number')) {
+    return `📞 <strong>Contact Details:</strong><br>• Kharadar General Hospital: 021-32510113-116 | 021-111 544 544<br>• Rahila Lab: 021-34383054/55 | rahilalab@gmail.com<br>• Ultramed, Murshid, Patni: Contact at reception directly.<br><br><a href="#" onclick="showPage('contact');toggleChat()" style="color:var(--teal);font-weight:600">→ Full contact page</a>`;
+  }
+  if(m.includes('timing') || m.includes('time') || m.includes('open') || m.includes('schedule')) {
+    return `⏰ <strong>General Timings:</strong><br>• Ultramed: By Appointment / Fixed schedules<br>• Murshid Hospital: 8 AM – 9 PM<br>• Patni Hospital: 8 AM – 4 PM (Sunday Off)<br>• Kharadar General: Morning & Evening OPD (Mon–Sat)<br>• Naval Diagnostic: 9 AM – 11 PM (Daily)<br><br>For specific doctor timings, please visit the hospital page!`;
+  }
+  if(m.includes('hello') || m.includes('hi') || m.includes('salam') || m.includes('assalam')) {
+    return `Wa Alaikum Assalam! 😊 Welcome to MedConnect Karachi. How can I assist you today? You can ask me about doctors, hospitals, lab tests, timings, or book an appointment!`;
+  }
+  if(m.includes('thank') || m.includes('shukriya') || m.includes('shukria')) {
+    return `You're most welcome! 😊 Stay healthy! Is there anything else I can help you with?`;
+  }
+  // Default
+  return `I can help you with:<br>• 🏥 Finding hospitals & clinics<br>• 👨‍⚕️ Finding specialist doctors<br>• ⏰ Doctor timings & schedules<br>• 🔬 Lab tests (Rahila Lab / Naval Clinic)<br>• 📅 Booking appointments<br><br>Please ask me about a specific hospital, doctor, or specialization!`;
+}
+
+// Set min date for appointment
+document.getElementById('appt-date').min = new Date().toISOString().split('T')[0];
+
+// Init
+document.querySelectorAll('.nav-btn').forEach(b => {
+  b.addEventListener('click', function() {
+    document.querySelectorAll('.nav-btn').forEach(x=>x.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
